@@ -93,17 +93,19 @@ function from(x){
     }
 }
 
-function to(x, lim){
-    let it = x
-    return function(){
-        if (it < lim){
-            if (it == x){
-                it += 1
-                return x
-            }
-            x += 1 
+function to(gen, lim){
+    let it = 0
+    let val = 0
+        return function(){
+            if (val = 0){
             it += 1
-            return x
+            val = gen()
+            return val
+        }
+            if (val < lim){
+            it += 1
+            val += gen()
+            return val
         }
     }
 }
