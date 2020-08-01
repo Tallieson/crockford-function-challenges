@@ -79,33 +79,99 @@ function limit(fn, x){
 }
 
 function from(x){
-    let it = 0
     return function(){
-        if (it < 3){
-            if (it == 0){
-                it += 1
-                return x
-            }
-            x += 1 
-            it += 1
-            return x
-        }
+            return x++
     }
 }
 
 function to(gen, lim){
-    let it = 0
-    let val = 0
-        return function(){
-            if (val = 0){
-            it += 1
-            val = gen()
-            return val
-        }
-            if (val < lim){
-            it += 1
-            val += gen()
+    return function(){
+        let val = gen()
+        if (val < lim){
             return val
         }
     }
 }
+
+function fromTo(x, y){
+    return function(){
+        if(x < y)
+        return x++
+    }
+}
+
+function element(array, gen){
+//     if (gen) {
+//         return function(){
+//             let val = gen()
+//             return array[val]
+//         }
+//     }
+//     else {
+//         let x = -1
+//         return function(){
+//         x++
+//         return array[x]
+//         }
+//     }
+// }
+    gen = gen || from(0)
+    return function(){
+        return array[gen()]
+    }
+}
+
+function collect(gen, array){
+    return function(){
+        val = gen()
+        if (val != undefined)
+        {array.push(val)}
+    return val
+    }
+}
+
+function filter(gen, pred){
+    return function(){
+        while(true){
+            val = gen()
+            if (pred(val)){
+                return val
+            }
+            else if(val === undefined){
+                return undefined
+            }
+        }
+    }
+}
+
+
+function concat(gen1, gen2){
+    return function gen3(){
+        let val = gen1()
+        if(val !== undefined){
+            return val
+        }
+        else{
+            return gen2()
+        }
+    }
+}
+
+function repeat(gen){
+    do{
+        val = gen()
+    }
+        while(val !== undefined){
+            return val
+        }
+    }
+
+
+function gensymf(val){
+    let int = 0
+    return function(){
+        int++ 
+        return val + int
+    }
+}
+
